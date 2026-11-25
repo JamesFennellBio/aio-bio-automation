@@ -5,7 +5,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
-
+	"os"
 	"golang.org/x/crypto/argon2"
 )
 
@@ -24,8 +24,21 @@ func RestCryptor(phrase []byte) {
 		panic(err)
 	}
 	sealed := gcm.Seal(nil, nil, mk, nil)
-	fmt.Println(sealed)
+	data, err := os.ReadFile(~/.biovault/disk_key.key)
+	if err != nil {
+		panic(err)
+		}
+	if len(data) == 0 {
+		diskKey := make([]byte, 32)
+		rand.Read(diskKey)
+		os.WriteFile("~/.biovault/disk_key.key", 
+	}
 }
+
+
+
 func main() {
 	RestCryptor([]byte("my-test-passphrase"))
 }
+
+
